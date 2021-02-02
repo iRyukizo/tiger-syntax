@@ -54,11 +54,7 @@ function! TgfIndent()
   let pNum  = prevnonblank(v:lnum - 1)
   let pLine = getline(pNum)
 
-  echom thisLine
-
-  " If the current line has any keywords
   if (thisLine !~ '\<let\>' && (thisLine =~ '\<in\>' || thisLine =~ '\<end\>'))
-    echom "OK"
     let lastN = FindLast('let', 'in', 'end')
     return indent(lastN)
   endif
@@ -66,12 +62,10 @@ function! TgfIndent()
   if (thisLine !~ '\<if\>' && thisLine =~ '\<else\>')
     let lastN = FindLast('if', 'then', 'else')
     return indent(lastN)
-    echom "LastN = " . lastN . " indent:" . indent(lastN)
   elseif (thisLine !~ '\<if\>' && thisLine =~ '\<then\>')
     return IncrementIndent(FindLast('if', 'then'))
   endif
-    
-  " If the parent line has this specific keywords
+
   if (pLine =~ '\<function\>' && pLine =~ '\v\=\ *$') 
     return IncrementIndent(pNum)
   endif
