@@ -54,7 +54,7 @@ function! TgfIndent()
   let pNum  = prevnonblank(v:lnum - 1)
   let pLine = getline(pNum)
 
-  if (thisLine !~ '\<let\>' && (thisLine =~ '\<in\>' || thisLine =~ '\<end\>'))
+  if (thisLine !~ '\<let\>' && (thisLine =~ '\<in\>' || thisLine =~ '\<end\>') && thisLine !~ '\<function\>' && thisLine !~ '\<:\>' && v:lnum != 1)
     let lastN = FindLast('let', 'in', 'end')
     return indent(lastN)
   endif
