@@ -37,6 +37,18 @@ function! FindLast(...)
   return pNum
 endfunction
 
+function! CheckEmpty()
+    let resu = 1
+    let line = v:lnum
+    while (line >= 1)
+        if (len(getline(line)) > 2)
+            let resu = 0
+        endif
+        let line = line - 1
+    endwhile
+    return resu
+endfunction
+
 function! TgfIndent()
   let thisLine = getline(v:lnum)
 
@@ -54,15 +66,17 @@ function! TgfIndent()
   let pNum  = prevnonblank(v:lnum - 1)
   let pLine = getline(pNum)
 
-  if (thisLine !~ '\<let\>' && (thisLine =~ '\<in\>' || thisLine =~ '\<end\>') && thisLine !~ '\<function\>' && thisLine !~ '\<:\>' && v:lnum != 1)
-    let lastN = FindLast('let', 'in', 'end')
-    return indent(lastN)
+  if (thisLine !~ '\<let\>' && (thisLine =~ '\<in\>' || thisLine =~ '\<end\>'))
+    if (CheckEmpty() == 0)
+        let lastN = FindLast('let', 'in', 'end')
+        return indent(lastN)
+    endif
   endif
 
-  if (thisLine !~ '\<if\>' && thisLine =~ '\<else\>')
+  if (thisLine !~ '\<if\>' && thisLine =~ '\<else\>' && CheckEmpty() != 1)
     let lastN = FindLast('if', 'then', 'else')
     return indent(lastN)
-  elseif (thisLine !~ '\<if\>' && thisLine =~ '\<then\>')
+  elseif (thisLine !~ '\<if\>' && thisLine =~ '\<then\>'&& CheckEmpty() != 1)
     return IncrementIndent(FindLast('if', 'then'))
   endif
 
