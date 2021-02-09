@@ -38,10 +38,13 @@ function! FindLast(...)
 endfunction
 
 function! CheckEmpty()
+    if v:lnum == 1
+        return 1
+    endif
     let resu = 1
-    let line = v:lnum
+    let line = v:lnum - 1
     while (line >= 1)
-        if (len(getline(line)) > 2)
+        if (len(getline(line)) > 1)
             let resu = 0
         endif
         let line = line - 1
@@ -73,10 +76,10 @@ function! TgfIndent()
     endif
   endif
 
-  if (thisLine !~ '\<if\>' && thisLine =~ '\<else\>' && CheckEmpty() != 1)
+  if (thisLine !~ '\<if\>' && thisLine =~ '\<else\>' && CheckEmpty() == 0)
     let lastN = FindLast('if', 'then', 'else')
     return indent(lastN)
-  elseif (thisLine !~ '\<if\>' && thisLine =~ '\<then\>'&& CheckEmpty() != 1)
+  elseif (thisLine !~ '\<if\>' && thisLine =~ '\<then\>'&& CheckEmpty() == 0)
     return IncrementIndent(FindLast('if', 'then'))
   endif
 
