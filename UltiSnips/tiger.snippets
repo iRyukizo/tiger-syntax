@@ -1,0 +1,64 @@
+snippet let "let in end" !b
+let
+	${1:/* FIXME: declaration */}
+in
+	${0:/* FIXME: code */}
+end
+endsnippet
+
+snippet var "var id := ..." !b
+var ${1:foo} := ${0:bar}
+endsnippet
+
+snippet pr "print(...)" !b
+print(${1:"Hi Tiger!"})$0
+endsnippet
+
+snippet pri "print_int(...)" !b
+print_int(${1:42})$0
+endsnippet
+
+snippet imp "import ..." !b
+import "${1:`!p snip.rv = snip.basename + '.tih'`}"$0
+endsnippet
+
+snippet if "if (...) then ..." !b
+if (${1:/* condition */}) then
+(
+	${0:/* code */}
+);
+endsnippet
+
+snippet ife "if (...) then ... else" !b
+if (${1:/* condition */}) then
+(
+	${2:/* code */}
+)
+else
+(
+	${0:/* code */}
+)
+endsnippet
+
+snippet el "else ..." !b
+else
+(
+	${0:/* code */}
+)
+endsnippet
+
+snippet wh "while ..." !b
+while (${1:/* condition */}) do
+(
+	${0:/* code */}
+)
+endsnippet
+
+snippet fun "function foo(args : ...) : ... =" !b
+function ${1:foo}(${2:/* params */})${3: : int } =
+	${0:/* code */}
+endsnippet
+
+snippet type "type ... = ..." !b
+type ${1:Type} = ${2:array of int}$0
+endsnippet
